@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  
+  
+  <meta name="generator" content="Hexo 8.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  <title>rust_分享 - 学习分享</title>
+
+  
+    <meta name="description" content="简介Rust：内存安全、无数据竞争、高性能 两步走，先编译，后运行 编译时解决内存安全问题，而非运行期 安装环境：Cargo –&gt;第三方库 变量、可变性与引用变量与可变性JS： 12const a &#x3D; 1; &#x2F;&#x2F;不可变let b &#x3D; 2; &#x2F;&#x2F;可变  Rust： 12let a &#x3D; 1; &#x2F;&#x2F;不可变let mut b &#x3D; 2 &#x2F;&#x2F;可变  数据类型与函数数据类型rust作为强类型语言，也需要标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rust_分享">
+<meta property="og:url" content="http://example.com/2026/03/08/rust-%E5%88%86%E4%BA%AB/">
+<meta property="og:site_name" content="学习分享">
+<meta property="og:description" content="简介Rust：内存安全、无数据竞争、高性能 两步走，先编译，后运行 编译时解决内存安全问题，而非运行期 安装环境：Cargo –&gt;第三方库 变量、可变性与引用变量与可变性JS： 12const a &#x3D; 1; &#x2F;&#x2F;不可变let b &#x3D; 2; &#x2F;&#x2F;可变  Rust： 12let a &#x3D; 1; &#x2F;&#x2F;不可变let mut b &#x3D; 2 &#x2F;&#x2F;可变  数据类型与函数数据类型rust作为强类型语言，也需要标">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-08T07:16:00.000Z">
+<meta property="article:modified_time" content="2026-03-08T07:16:47.983Z">
+<meta property="article:author" content="周昊哲">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+
+
+  
+
+  
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"周昊哲","sameAs":[]},"dateCreated":"2026-03-08T15:16:00+08:00","dateModified":"2026-03-08T15:16:47+08:00","datePublished":"2026-03-08T15:16:00+08:00","description":"","headline":"rust_分享","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2026/03/08/rust-%E5%88%86%E4%BA%AB/"},"publisher":{"@type":"Organization","name":"周昊哲","sameAs":[]},"url":"http://example.com/2026/03/08/rust-%E5%88%86%E4%BA%AB/","image":[]}</script>
+  
+</head>
+<body>
+
+<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">学习分享</div></a></div></header>
+
+<div class="nav-area">
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/03/08/rust-%E5%88%86%E4%BA%AB/"><span class="title">rust_分享</span></a><a class="item title" href="/2026/01/02/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84.trim()%E6%96%B9%E6%B3%95/"><span class="title">字符串的.trim()方法</span></a><a class="item title" href="/2026/01/02/%E9%94%AE%E7%9B%98%E6%B4%BB%E5%8A%A8-key/"><span class="title">键盘活动.key</span></a><a class="item title" href="/2026/01/02/localStorage/"><span class="title">localStorage</span></a><a class="item title" href="/2025/12/10/Fetch-API%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"><span class="title">Fetch_API网络请求</span></a><a class="item title" href="/2025/12/10/Async-Programming%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/"><span class="title">Async_Programming异步编程</span></a><a class="item title" href="/2025/12/04/week6/"><span class="title">week6</span></a><a class="item title" href="/2025/11/30/class/"><span class="title">class</span></a><a class="item title" href="/2025/11/30/this/"><span class="title">this</span></a><a class="item title" href="/2025/11/30/OOP%E5%92%8CFP/"><span class="title">OOP和FP</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-03-08T07:16:00.000Z">2026-03-08</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-03-08T07:16:47.983Z">2026-03-08</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>rust_分享</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>Rust</strong>：<strong>内存安全</strong>、<strong>无数据竞争</strong>、<strong>高性能</strong></p>
+<p>两步走，先编译，后运行</p>
+<p>编译时解决内存安全问题，而非运行期</p>
+<p>安装环境：Cargo –&gt;第三方库</p>
+<h2 id="变量、可变性与引用"><a href="#变量、可变性与引用" class="headerlink" title="变量、可变性与引用"></a>变量、可变性与引用</h2><h3 id="变量与可变性"><a href="#变量与可变性" class="headerlink" title="变量与可变性"></a>变量与可变性</h3><p>JS：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="number">1</span>; <span class="comment">//不可变</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">2</span>; <span class="comment">//可变</span></span><br></pre></td></tr></table></figure>
+
+<p>Rust：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">1</span>; <span class="comment">//不可变</span></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">b</span> = <span class="number">2</span> <span class="comment">//可变</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据类型与函数"><a href="#数据类型与函数" class="headerlink" title="数据类型与函数"></a>数据类型与函数</h3><h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><p>rust作为强类型语言，也需要标注变量类型，大概有这些</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ==================== 整数类型 ====================</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">e</span>: <span class="type">i32</span> = <span class="number">2147483647</span>; <span class="comment">// 32位有符号（默认整数类型）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">f</span>: <span class="type">u32</span> = <span class="number">4294967295</span>; <span class="comment">// 32位无符号</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">k</span>: <span class="type">isize</span> = <span class="number">100</span>;    <span class="comment">// 指针大小有符号（取决于架构：32位系统=32位，64位系统=64位）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">l</span>: <span class="type">usize</span> = <span class="number">100</span>;    <span class="comment">// 指针大小无符号（用于数组索引）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span>: <span class="type">i16</span> = <span class="number">32767</span>;    <span class="comment">// 16位有符号</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">d</span>: <span class="type">u16</span> = <span class="number">65535</span>;    <span class="comment">// 16位无符号</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">i8</span> = -<span class="number">128</span>;      <span class="comment">// 8位有符号  (-128 到 127)</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">u8</span> = <span class="number">255</span>;       <span class="comment">// 8位无符号  (0 到 255)</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g</span>: <span class="type">i64</span> = <span class="number">9223372036854775807</span>; <span class="comment">// 64位有符号</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">h</span>: <span class="type">u64</span> = <span class="number">18446744073709551615</span>; <span class="comment">// 64位无符号</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span>: <span class="type">i128</span> = <span class="number">170141183460469231731687303715884105727</span>; <span class="comment">// 128位有符号</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">j</span>: <span class="type">u128</span> = <span class="number">340282366920938463463374607431768211455</span>; <span class="comment">// 128位无符号</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 整数字面量</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">decimal</span> = <span class="number">98_222</span>;        <span class="comment">// 可以用下划线增加可读性</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">hex</span> = <span class="number">0xff</span>;              <span class="comment">// 十六进制</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">octal</span> = <span class="number">0o77</span>;            <span class="comment">// 八进制</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">binary</span> = <span class="number">0b1111_0000</span>;    <span class="comment">// 二进制</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">byte</span> = <span class="string">b&#x27;A&#x27;</span>;             <span class="comment">// 字节字面量 (仅限u8)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ==================== 浮点类型 ====================</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">x</span>: <span class="type">f32</span> = <span class="number">3.14</span>;    <span class="comment">// 32位浮点（单精度）</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span>: <span class="type">f64</span> = <span class="number">3.141592653589793</span>; <span class="comment">// 64位浮点（双精度，默认浮点类型）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ==================== 布尔类型 ====================</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">t</span>: <span class="type">bool</span> = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">f</span>: <span class="type">bool</span> = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ==================== 字符类型 ====================</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span>: <span class="type">char</span> = <span class="string">&#x27;z&#x27;</span>;        <span class="comment">// 4字节，Unicode标量值</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">z</span>: <span class="type">char</span> = <span class="string">&#x27;ℤ&#x27;</span>;        <span class="comment">// 支持Unicode</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">heart</span>: <span class="type">char</span> = <span class="string">&#x27;❤&#x27;</span>;    <span class="comment">// 支持emoji</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>rust有入口函数main，自动执行：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">&quot;hello世界&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>自定义函数</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">function1</span>() &#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//若要传形参，须标注出其类型，若有返回值。一并标注</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">function2</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">	x + <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//可见rust返回值可省略return，让最后的语句是一个表达式，不是语句即可（尾部没用分号）</span></span><br><span class="line"><span class="comment">//return常用来中途返回函数，而结尾的最终返回通常不用return.</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>看所有权之前，先大致看看数据存放的地方</p>
+<h3 id="栈和堆"><a href="#栈和堆" class="headerlink" title="栈和堆"></a>栈和堆</h3><p>—栈后进先出<br>—堆里数据都有固定地址取用</p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">栈</th>
+<th align="left">堆</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>分配速度</strong></td>
+<td align="left">极快（移动指针）</td>
+<td align="left">较慢（查找空闲块）</td>
+</tr>
+<tr>
+<td align="left"><strong>释放速度</strong></td>
+<td align="left">极快（移动指针）</td>
+<td align="left">较慢（需要回收）</td>
+</tr>
+<tr>
+<td align="left"><strong>大小限制</strong></td>
+<td align="left">固定（编译时已知）</td>
+<td align="left">动态（运行时决定）</td>
+</tr>
+<tr>
+<td align="left"><strong>内存布局</strong></td>
+<td align="left">连续，后进先出</td>
+<td align="left">离散，可以碎片化</td>
+</tr>
+<tr>
+<td align="left"><strong>访问方式</strong></td>
+<td align="left">直接访问</td>
+<td align="left">通过指针间接访问</td>
+</tr>
+<tr>
+<td align="left"><strong>生命周期</strong></td>
+<td align="left">函数结束自动释放</td>
+<td align="left">所有权结束释放</td>
+</tr>
+<tr>
+<td align="left"><strong>适用场景</strong></td>
+<td align="left">局部变量，小数据</td>
+<td align="left">动态数据，大数据，共享数据</td>
+</tr>
+</tbody></table>
+<p>理解以下数据存储的地方：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 栈上存储</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;              <span class="comment">// x 在栈上，值5直接存在栈中</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = x;              <span class="comment">// y 复制了x的值5，现在有两个5</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 堆上存储</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);  <span class="comment">// s1在栈上(指针、长度、容量)，数据在堆上</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s2</span> = s1;            <span class="comment">// s1移动到s2，s1不再有效</span></span><br><span class="line">    <span class="comment">// println!(&quot;&#123;&#125;&quot;, s1);  // 错误：s1已被移动</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用 - 指向其他数据</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">z</span> = &amp;x;             <span class="comment">// z 存储 x 的地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大致理解存放数据的地方之后，再来看所有权的概念</p>
+<h3 id="所有权"><a href="#所有权" class="headerlink" title="所有权"></a>所有权</h3><h4 id="意义"><a href="#意义" class="headerlink" title="意义"></a>意义</h4><ul>
+<li><strong>C&#x2F;C++ 路线（手动内存管理）：</strong> <u>极高性能</u>，但开发者必须手动 <code>malloc</code> 和 <code>free</code>。一旦疏忽，就会导致<strong>空指针、悬垂指针、内存泄漏、双重释放</strong>等 bug。这些 bug 极其难以追踪，且常是安全漏洞的根源。</li>
+<li><strong>Java&#x2F;Go 路线（垃圾回收 GC）：</strong> <u>内存安全</u>，程序员只管 <code>new</code>，GC 会自动回收。但 GC 会带来运行时开销（暂停程序、回收内存），导致性能不稳定，不适合编写操作系统内核、嵌入式设备或游戏引擎这类对延迟敏感的程序。</li>
+</ul>
+<p>Rust 想走一条新路：<strong>既要 C 语言的性能，又要 Java 的安全</strong>，于是所有权的概念出现了。</p>
+<h4 id="核心规则"><a href="#核心规则" class="headerlink" title="核心规则"></a>核心规则</h4><h5 id="唯一所有者"><a href="#唯一所有者" class="headerlink" title="唯一所有者"></a><strong>唯一所有者</strong></h5><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// s 是 String 值的所有者</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">	<span class="comment">// 这里可以正常使用 s</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s); <span class="comment">// 输出: hello</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s2</span> = s1; <span class="comment">// s1 的所有权移动给了 s2</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 尝试使用 s1 - 编译错误！</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s1); </span><br><span class="line">    <span class="comment">// 错误: value borrowed here after move,也就是所有权移动</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//函数与所有权</span></span><br><span class="line"><span class="comment">//若有函数  aaa(x：String)、bbb(x: i32)</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">aaa</span>(s); <span class="comment">// s的所有权移入函数</span></span><br><span class="line">    <span class="comment">// println!(&quot;&#123;&#125;&quot;, s); // 错误！s已经无效</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line">    <span class="title function_ invoke__">makes_copy</span>(x); <span class="comment">// i32实现了Copy(一种Trait)，x仍然有效</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, x); <span class="comment">// 没问题</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若想要同时在两处使用？<br>方法一：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="comment">// 显式克隆创建深拷贝，现在有两个独立的值</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s2</span> = s1.<span class="title function_ invoke__">clone</span>();</span><br><span class="line">    <span class="comment">// s1 和 s2 都可以正常使用，相互独立</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;s1 = &#123;&#125;, s2 = &#123;&#125;&quot;</span>, s1, s2); </span><br><span class="line">    <span class="comment">// 输出: s1 = hello, s2 = hello</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 还有细节，等Trait</span></span><br></pre></td></tr></table></figure>
+
+<p>方法二：&amp;借用，稍后讲</p>
+<h5 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a><strong>作用域</strong></h5><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 新作用域</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;作用域内: &#123;&#125;&quot;</span>, s); <span class="comment">// 输出: 作用域内: hello</span></span><br><span class="line">    &#125; <span class="comment">// s 离开作用域，Rust 自动调用 drop，内存被释放</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s); <span class="comment">// 编译错误！</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><ul>
+<li><code>&amp;</code>符号表示引用，允许你引用某些值而不取得其所有权</li>
+<li>引用一个变量的行为不会抢夺其所有权，叫借用</li>
+<li>值不会因为借用结束被释放，因为没有所有权</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">length</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123; <span class="comment">// s是对String的引用</span></span><br><span class="line">    s.<span class="title function_ invoke__">len</span>()</span><br><span class="line">&#125; <span class="comment">// s离开作用域，但它没有所有权，所以什么都不会发生</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span> = <span class="title function_ invoke__">length</span>(&amp;s1); <span class="comment">// &amp;s1创建引用</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#x27;&#123;&#125;&#x27;的长度是&#123;&#125;&quot;</span>, s1, len); <span class="comment">// s1仍然有效</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和变量的可变差不多，想要改变要加mut关键字：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">change</span>(some_string: &amp;<span class="keyword">mut</span> <span class="type">String</span>) &#123;</span><br><span class="line">    some_string.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;, world&quot;</span>); <span class="comment">// 修改原值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">change</span>(&amp;<span class="keyword">mut</span> s); <span class="comment">// 传递可变引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>未加mut关键字的引用是不可变的，不会修改它借用的东西<br>加了就可以</p>
+<h5 id="解引用"><a href="#解引用" class="headerlink" title="解引用"></a><strong>解引用</strong></h5><p>引用实际指向**<u>地址</u><strong>而非</strong><u>值</u>**：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;  <span class="comment">// x 是一个值：5</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span> = &amp;x; <span class="comment">// y 是一个地址：指向存放5的那个内存位置</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们要对一个**<u>值</u>**进行运算符操作时，我们需要用到解引用：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">a</span> = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = &amp;<span class="keyword">mut</span> a;</span><br><span class="line">b += <span class="number">1</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">//error：cannot use `+=` on type `&amp;mut &#123;integer&#125;`</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//help: `+=` can be used on `&#123;integer&#125;` if you dereference the left-hand side</span></span><br><span class="line">  |		</span><br><span class="line">  |     *b += <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>dereference</code>即解引用</p>
+<p>上面函数中的借用不需要解引用？<br>—结论是：有关操作符就需要解引用，方法调用则不需要；<br>—原本这两个都需要解引用，但由于方法的调用对象一般会有特定类型，rust会自动解引用到目标类型，也就是说，对于操作符（如<code>+</code>、<code>-</code>、<code>+=</code>），rust不确定类型，但对于方法的调用则可以确定，也就不需要手动解引用了。</p>
+<h5 id="引用的准则"><a href="#引用的准则" class="headerlink" title="引用的准则"></a><strong>引用的准则</strong></h5><p>在特定作用域内，对某一块数据，只能有一个可变引用</p>
+<p>对于可变引用，以下两种行为下会发生数据竞争<br> 一、两个或多个指针同时访问同一个数据<br>1、两个可变引用同时存在</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">data</span> = <span class="number">42</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;<span class="keyword">mut</span> data;  <span class="comment">// 第一个可变引用</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;<span class="keyword">mut</span> data;  <span class="comment">// 第二个可变引用 - ❌ 编译错误！</span></span><br><span class="line">    *r1 += <span class="number">1</span>;</span><br><span class="line">    *r2 += <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、一个可变引用 + 一个不可变引用</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">data</span> = <span class="number">42</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;data;      <span class="comment">// 不可变引用</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;<span class="keyword">mut</span> data;  <span class="comment">// 可变引用 - ❌ 编译错误！</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r1);</span><br><span class="line">    *r2 += <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>二、没有使用任何机制来同步对数据的访问<br>		对于多线程的操作，需要一个同步，若未同步就进行可变借用，往往会因为安全被拒绝编译</p>
+<p>“对于多线程的操作，<strong>必须使用同步机制</strong>（如 <code>Mutex</code>、<code>RwLock</code>、<code>原子类型</code> 等）来安全地共享可变数据。<strong>如果试图在没有同步的情况下跨线程使用可变引用，Rust 编译器会在编译期直接拒绝</strong>，而不是等到运行时恐慌。”</p>
+<h6 id="悬垂指针"><a href="#悬垂指针" class="headerlink" title="悬垂指针"></a><strong>悬垂指针</strong></h6><p>一个指针引用了内存中的某个地址，而这块内存可能以及释放**（归还给操作系统或分配器）**，并分配给另外的指针使用了，这会导致未定义行为</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">bad</span>() <span class="punctuation">-&gt;</span> &amp;<span class="type">i32</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">10</span>;</span><br><span class="line">    &amp;x  <span class="comment">// ❌ 编译错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Deepseek：让我们看看内存中发生了什么：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">bad</span>() <span class="punctuation">-&gt;</span> &amp;<span class="type">i32</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">10</span>;  <span class="comment">// 1. 在栈上分配 x，值为 10</span></span><br><span class="line">                 <span class="comment">//    [栈] x: 10 </span></span><br><span class="line">    &amp;x            <span class="comment">// 2. 返回 x 的地址（比如 0x1234）</span></span><br><span class="line">    </span><br><span class="line">&#125;  <span class="comment">// 3. 函数结束，x 的栈内存被回收</span></span><br><span class="line">   <span class="comment">//   地址 0x1234 现在可能被其他东西使用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 调用者拿到地址 0x1234，但那里的数据已经不是 10 了！</span></span><br></pre></td></tr></table></figure>
+
+<p>由于rust先编译后运行的特点，程序会在编译时就发现这种错误，保证不会在运行时出现</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Rust编译器会直接拒绝</span></span><br><span class="line">error[E0106]: missing lifetime specifier</span><br><span class="line"> -<span class="punctuation">-&gt;</span> src/main.rs:<span class="number">1</span>:<span class="number">16</span></span><br><span class="line">  |</span><br><span class="line"><span class="number">1</span> | <span class="keyword">fn</span> <span class="title function_">dangle</span>() <span class="punctuation">-&gt;</span> &amp;<span class="type">String</span> &#123;</span><br><span class="line">  |                ^ expected named lifetime parameter</span><br></pre></td></tr></table></figure>
+
+<p><strong>指针准则为什么这么严格？</strong></p>
+<ul>
+<li><p>防止<strong>数据竞争</strong>（data race）：两个指针同时访问同一数据，至少一个在写</p>
+</li>
+<li><p>数据竞争会导致未定义行为，Rust在编译期就杜绝了</p>
+</li>
+<li><p>当你读数据时，不希望有人同时在改它</p>
+</li>
+</ul>
+<p>最后说一个我自己绕了很久的点</p>
+<p>Rust中变量使用：<br>要么转移所有权<br>要么copy<br>要么借用引用&#x2F;解引用：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">遇到变量使用</span><br><span class="line">    ↓</span><br><span class="line">是否通过 &amp; 或 &amp;mut 创建引用？</span><br><span class="line">    ├─ 是 → 🔷 借用</span><br><span class="line">    ↓</span><br><span class="line">   否</span><br><span class="line">    ↓</span><br><span class="line">类型是否实现了 Copy trait？</span><br><span class="line">    ├─ 是 → 🔶 复制（原变量仍可用）</span><br><span class="line">    ↓</span><br><span class="line">   否</span><br><span class="line">    ↓</span><br><span class="line">🔴 所有权转移（原变量失效）</span><br></pre></td></tr></table></figure>
+
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>类似与js里的class，但 Rust 的结构体更轻量且<u><strong>没有继承特性</strong></u>，结构体是<strong>自定义</strong>的新**<u>类型</u><strong>，地位与i32、u8、String等等rust内置的类型</strong>相同**</p>
+<h3 id="三种大类"><a href="#三种大类" class="headerlink" title="三种大类"></a>三种大类</h3><h4 id="1，具名结构体"><a href="#1，具名结构体" class="headerlink" title="1，具名结构体"></a>1，具名结构体</h4><p>​	这是最常见的结构体形式，每个字段都有名称。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">	name: <span class="type">String</span>,</span><br><span class="line">	email: <span class="type">String</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">	<span class="keyword">let</span> <span class="variable">Bob</span> = Person &#123;</span><br><span class="line">		name: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Bob&quot;</span>),</span><br><span class="line">		email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;1234567890@qq.com&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//修改</span></span><br><span class="line">    Bob.name = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;boB&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2，元组结构体"><a href="#2，元组结构体" class="headerlink" title="2，元组结构体"></a>2，元组结构体</h4><p>类似于元组，但有名字。适用于需要给整个元组一个类型名称的场景。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Color</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BackgroundColor</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">black</span> = <span class="title function_ invoke__">Color</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">origin</span> = <span class="title function_ invoke__">BackgroundColor</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 访问元素</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;black: (&#123;&#125;, &#123;&#125;, &#123;&#125;)&quot;</span>, black.<span class="number">0</span>, black.<span class="number">1</span>, black.<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3，单元结构体"><a href="#3，单元结构体" class="headerlink" title="3，单元结构体"></a>3，单元结构体</h4><p>没有任何字段的结构体，类似于空元组 <code>()</code>。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">AlwaysEqual</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">subject</span> = AlwaysEqual;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>另外，为了方便创建有重复字段的新实例，rust安排了简便语法，可以复制先前实例的某些部分，但需注意复制部分是否实现了copy</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;user1@example.com&quot;</span>),</span><br><span class="line">    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;user1&quot;</span>),</span><br><span class="line">    active: <span class="literal">true</span>,</span><br><span class="line">    sign_in_count: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用user1的其他字段创建user2</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">user2</span> = User &#123;</span><br><span class="line">    email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;user2@example.com&quot;</span>),</span><br><span class="line">    username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;user2&quot;</span>),</span><br><span class="line">    ..user1  <span class="comment">// 注意：这会移动user1中的某些字段</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果字段没有实现Copy trait，user1将部分失效</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;&#125;&quot;, user1.active); // 可以，因为bool实现Copy，rust自动复制过来</span></span><br><span class="line"><span class="comment">// println!(&quot;&#123;&#125;&quot;, user1.email);   // 编译错误：email的所有权已转移</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="添加方法"><a href="#添加方法" class="headerlink" title="添加方法"></a>添加方法</h3><p>方法是在结构体上下文中定义的函数，第一个参数必是 <code>self</code></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">juxing</span> &#123;</span><br><span class="line">    width: <span class="type">i32</span>,</span><br><span class="line">	height: <span class="type">i32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">juxing</span> &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">square</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">		<span class="keyword">self</span>.width * <span class="keyword">self</span>.height</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">bigger_or_not</span>(&amp;<span class="keyword">self</span>, other: &amp;Rectangle) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width &gt; other.width &amp;&amp; <span class="keyword">self</span>.height &gt; other.height</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">expand</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.width *= <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">self</span>.height *= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">book</span> = &#123;</span><br><span class="line">        width: <span class="number">30</span>,</span><br><span class="line">        height: <span class="number">50</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">desktop</span> = &#123;</span><br><span class="line">        width: <span class="number">80</span>,</span><br><span class="line">        height: <span class="number">120</span></span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">book_square</span> = book.<span class="title function_ invoke__">square</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (book.<span class="title function_ invoke__">bigger_or_not</span>(desktop)) &#123;<span class="built_in">println!</span>(<span class="string">&quot;book&quot;</span>)&#125; <span class="keyword">else</span> &#123;<span class="built_in">println!</span>(<span class="string">&quot;book&quot;</span>)&#125;;</span><br><span class="line">    </span><br><span class="line">    desktop.<span class="title function_ invoke__">expand</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;x&#123;&#125;&quot;</span>, desktop.width, desktop.height);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="关联函数"><a href="#关联函数" class="headerlink" title="关联函数"></a>关联函数</h3><p>​	和方法一样，在<code>impl</code>块里定义，不以<code>self</code>为参数的函数，常用于构造函数</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">juxing</span> &#123;</span><br><span class="line">	<span class="keyword">fn</span> <span class="title function_">new</span>(width: <span class="type">u32</span>, height: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> juxing &#123;</span><br><span class="line">        juxing &#123; width, height &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">Neww</span> = juxing::<span class="title function_ invoke__">new</span>(<span class="number">4</span>, <span class="number">8</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="多个-impl-块"><a href="#多个-impl-块" class="headerlink" title="多个 impl 块"></a>多个 impl 块</h3><p>一个结构体可以有多个 <code>impl</code> 块</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">juxing</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">square</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width * <span class="keyword">self</span>.height</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">juxing</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">cjuxing</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        <span class="number">2</span> * (<span class="keyword">self</span>.width + <span class="keyword">self</span>.height)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="枚举与匹配控制流"><a href="#枚举与匹配控制流" class="headerlink" title="枚举与匹配控制流"></a>枚举与匹配控制流</h2><h3 id="枚举-Enum"><a href="#枚举-Enum" class="headerlink" title="枚举(Enum)"></a>枚举(Enum)</h3><p>枚举是这组概念的<u>基石</u>，允许你定义一个类型，这个类型的值只能是几个预定义的**“变体”**（variants）中的一个。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个简单的枚举</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">TrafficLight</span> &#123;</span><br><span class="line">    Red,</span><br><span class="line">    Yellow,</span><br><span class="line">    Green,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 枚举的变体可以携带不同类型和数量的数据</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">WebEvent</span> &#123;</span><br><span class="line">    <span class="comment">// 一个枚举变体可以是个单元结构体 (不带数据)</span></span><br><span class="line">    PageLoad,</span><br><span class="line">    PageUnload,</span><br><span class="line">    <span class="comment">// 也可以是元组结构体 (带匿名数据)</span></span><br><span class="line">    <span class="title function_ invoke__">KeyPress</span>(<span class="type">char</span>),</span><br><span class="line">    <span class="title function_ invoke__">Paste</span>(<span class="type">String</span>),</span><br><span class="line">    <span class="comment">// 或者是结构体 (带命名数据)</span></span><br><span class="line">    Click &#123; x: <span class="type">i64</span>, y: <span class="type">i64</span> &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意变体命名和变量命名一样，需要遵守的”必须以字母或下划线开头，只能包含字母、数字和下划线”</p>
+<h3 id="匹配控制流-match"><a href="#匹配控制流-match" class="headerlink" title="匹配控制流(match)"></a><strong>匹配控制流(match)</strong></h3><p>JS里有switch，用来多过程匹配，rust也有类似运算符<br>“<code>match</code> 是一个极其强大的控制流运算符，它允许你将一个值与一系列模式进行比较，并根据匹配的模式执行相应的代码。它可以被看作是 C 语言中 <code>switch</code> 的究极进化版。”——Deepseek</p>
+<h4 id="match规则"><a href="#match规则" class="headerlink" title="match规则"></a>match规则</h4><ol>
+<li><strong>穷尽性</strong>：必须覆盖所有可能的模式，否则代码无法通过编译。这防止了遗漏处理某些情况的bug。</li>
+<li><strong>每个分支是一个表达式</strong>：每个匹配分支 <code>=&gt;</code> 后面的代码块会返回一个值，整个 <code>match</code> 本身就是一个表达式，可以赋值给变量。</li>
+</ol>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Coin</span> &#123;</span><br><span class="line">    Penny,</span><br><span class="line">    Nickel,</span><br><span class="line">    Dime,</span><br><span class="line">    Quarter,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">value_in_cents</span>(coin: Coin) <span class="punctuation">-&gt;</span> <span class="type">u8</span> &#123;</span><br><span class="line">    <span class="comment">// match 表达式，并返回值</span></span><br><span class="line">    <span class="keyword">match</span> coin &#123;</span><br><span class="line">        Coin::Penny =&gt; &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;Lucky penny!&quot;</span>);</span><br><span class="line">            <span class="number">1</span>  <span class="comment">// 分支的返回值</span></span><br><span class="line">        &#125;</span><br><span class="line">        Coin::Nickel =&gt; <span class="number">5</span>,</span><br><span class="line">        Coin::Dime =&gt; <span class="number">10</span>,</span><br><span class="line">        Coin::Quarter =&gt; <span class="number">25</span>,</span><br><span class="line">        <span class="comment">// 这里没有 _ =&gt; ...，因为已经穷尽了所有 Coin 的可能性</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Number</span> &#123;</span><br><span class="line">	One,</span><br><span class="line">	Two,</span><br><span class="line">	Three,</span><br><span class="line">	Four,</span><br><span class="line">	Five,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">value</span>(num: Number) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">	<span class="keyword">match</span> num &#123;</span><br><span class="line">		Number::One =&gt; &#123;<span class="number">1</span>&#125;</span><br><span class="line">		_ =&gt; &#123;<span class="number">0</span>&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="可选值枚举（option）"><a href="#可选值枚举（option）" class="headerlink" title="可选值枚举（option）"></a>可选值枚举（option）</h3><p><code>Option</code> 是 Rust 标准库中定义的一个极其重要的枚举。它用于表示一个值<strong>可能存在 (Some)</strong> 或<strong>可能不存在 (None)</strong> 的概念。</p>
+<p><strong>为什么需要 Option？</strong><br>Rust 没有 <code>null</code> (空值) 的概念。<code>null</code> 的发明者称之为“十亿美元的错误”，因为它经常导致程序崩溃。<code>Option</code> 是 Rust 用来代替 <code>null</code> 的安全方式。它强制程序员在每次使用一个可能不存在的值时，都必须显式地处理 <code>None</code> 的情况。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Option</span>&lt;T&gt; &#123;	<span class="comment">//`&lt;T&gt;` 是 Rust 的泛型语法，意味着 `Option` 可以包裹任何类型的值。</span></span><br><span class="line">    <span class="title function_ invoke__">Some</span>(T),  	    <span class="comment">// 表示存在一个类型为 T 的值</span></span><br><span class="line">    <span class="literal">None</span>,           <span class="comment">// 表示没有值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>如何使用 Option？</strong></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">divide</span>(numerator: <span class="type">f64</span>, denominator: <span class="type">f64</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="type">f64</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> denominator == <span class="number">0.0</span> &#123;</span><br><span class="line">        <span class="literal">None</span>  <span class="comment">// 除数为0，返回 None</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(numerator / denominator) <span class="comment">// 返回计算结果，包裹在 Some 里</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = <span class="title function_ invoke__">divide</span>(<span class="number">10.0</span>, <span class="number">2.0</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result_bad</span> = <span class="title function_ invoke__">divide</span>(<span class="number">10.0</span>, <span class="number">0.0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 要使用 result 里的值，必须用 match 或其他方法解构 Option</span></span><br><span class="line">    <span class="keyword">match</span> result &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(x) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;结果是: &#123;&#125;&quot;</span>, x),</span><br><span class="line">        <span class="literal">None</span> =&gt; <span class="built_in">println!</span>(<span class="string">&quot;除数为零，无法计算！&quot;</span>),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果忘记处理 None 情况，代码将无法编译！</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：Option<T>和T是不同的概念，它们是完全不同的类型，所以不能把前者直接当后者使用</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = result_bad + <span class="number">1.0</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果枚举（Result）"><a href="#结果枚举（Result）" class="headerlink" title="结果枚举（Result）"></a>结果枚举（Result）</h3><p><code>Result</code> 是另一个标准库中至关重要的枚举，用于<strong>错误处理</strong>。它表示一个操作<strong>可能成功 (Ok)</strong>，也可能<strong>失败 (Err)</strong>。</p>
+<p>Result定义：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Result</span>&lt;T, E&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(T),  <span class="comment">// 操作成功，返回类型为 T 的值</span></span><br><span class="line">    <span class="title function_ invoke__">Err</span>(E), <span class="comment">// 操作失败，返回类型为 E 的错误信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如何使用 Result？</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">divide</span>(a: <span class="type">f64</span>, b: <span class="type">f64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">f64</span>, <span class="type">String</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> b == <span class="number">0.0</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(<span class="string">&quot;除数不能为0！&quot;</span>.<span class="title function_ invoke__">to_string</span>())  <span class="comment">// 失败：返回错误信息</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(a / b)  <span class="comment">// 成功：返回结果</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 成功的情况</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result1</span> = <span class="title function_ invoke__">divide</span>(<span class="number">10.0</span>, <span class="number">2.0</span>);</span><br><span class="line">    <span class="keyword">match</span> result1 &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(value) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;结果是: &#123;&#125;&quot;</span>, value),  <span class="comment">// 输出：结果是: 5</span></span><br><span class="line">        <span class="title function_ invoke__">Err</span>(msg) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;错误: &#123;&#125;&quot;</span>, msg),</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 失败的情况</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result2</span> = <span class="title function_ invoke__">divide</span>(<span class="number">10.0</span>, <span class="number">0.0</span>);</span><br><span class="line">    <span class="keyword">match</span> result2 &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(value) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;结果是: &#123;&#125;&quot;</span>, value),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(msg) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;错误: &#123;&#125;&quot;</span>, msg),  <span class="comment">// 输出：错误: 除数不能为0！</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>Enum</strong> 定义了可能性的集合。</li>
+<li><strong>Match</strong> 是处理这些可能性的核心语法。</li>
+<li><strong>Option</strong> 和 <strong>Result</strong> 是两个最常用、最核心的枚举，分别用于解决null和“错误处理”这两个编程中的普遍问题。</li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a><strong>生命周期</strong></h2><p><strong>生命周期就是Rust用来确保”引用永远不会比它指向的数据活得更久”的机制。</strong><br>防止悬垂指针出现：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这段代码无法编译</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">r</span>;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line">    r = &amp;x;  <span class="comment">// r 引用了 x</span></span><br><span class="line">&#125; <span class="comment">// x 在这里被释放</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r); <span class="comment">// 错误：r 引用的值已经不存在</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="生命周期的概念"><a href="#生命周期的概念" class="headerlink" title="生命周期的概念"></a>生命周期的概念</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;                <span class="comment">// ---+-- &#x27;a</span></span><br><span class="line">                              <span class="comment">//    |</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span> = &amp;x;               <span class="comment">//    |</span></span><br><span class="line">                              <span class="comment">//    |</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r);         <span class="comment">//   |</span></span><br><span class="line">                              <span class="comment">// ---+</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// &#x27;a 从x创建开始，到main结束</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误版本的时间线：</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span>;                     <span class="comment">// ---+-- &#x27;a</span></span><br><span class="line">    &#123;                          <span class="comment">//    |</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;             <span class="comment">// ---+-- &#x27;b</span></span><br><span class="line">        r = &amp;x;                <span class="comment">//    |</span></span><br><span class="line">    &#125;                          <span class="comment">// ---+-- &#x27;b结束，x被释放</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r);          <span class="comment">//   | 试图使用已释放的x</span></span><br><span class="line">&#125;                              <span class="comment">// ---+-- &#x27;a结束</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x27;a 比 &#x27;b 长，但r需要x在&#x27;a期间都存在</span></span><br><span class="line"><span class="comment">// 所以编译器报错：x活得不够久</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="生命周期注解语法"><a href="#生命周期注解语法" class="headerlink" title="生命周期注解语法"></a>生命周期注解语法</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>&lt;<span class="symbol">&#x27;a</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123; x &#125; <span class="keyword">else</span> &#123; y &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>&#39;a</code>是一个生命周期参数（可以理解为”一段时间”）</li>
+<li><code>x: &amp;&#39;a str</code>：x的引用至少存活<code>&#39;a</code></li>
+<li><code>y: &amp;&#39;a str</code>：y的引用也至少存活<code>&#39;a</code></li>
+<li><code>-&gt; &amp;&#39;a str</code>：返回的引用存活时间不超过<code>&#39;a</code></li>
+<li>实际含义：返回的引用存活时间，是x和y中较小的那个</li>
+</ul>
+<h4 id="函数中的生命周期"><a href="#函数中的生命周期" class="headerlink" title="函数中的生命周期"></a>函数中的生命周期</h4><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误：需要指定生命周期关系</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>(x: &amp;<span class="type">str</span>, y: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123; x &#125; <span class="keyword">else</span> &#123; y &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确：指定返回值的生命周期与参数相关</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>&lt;<span class="symbol">&#x27;a</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123; x &#125; <span class="keyword">else</span> &#123; y &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 相当于告诉编译器：</span></span><br><span class="line"><span class="comment">// &quot;我会给你两个字符串引用，它们可能来自不同地方。</span></span><br><span class="line"><span class="comment">//  我会返回其中一个，但我不告诉你哪个。</span></span><br><span class="line"><span class="comment">//  所以，返回的引用必须活得和输入的两个引用中寿命较短的那个一样长。&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="where约束"><a href="#where约束" class="headerlink" title="*where约束"></a>*<code>where</code>约束</h4><p>更复杂一点——引入 <code>where</code> 约束：给某个生命周期加下限<br>正反手教学：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">without_constraint</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y: &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;y: &#123;&#125;&quot;</span>, y);  </span><br><span class="line">    x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;long lived&quot;</span>);  </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">y</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;short&quot;</span>); </span><br><span class="line">        result = <span class="title function_ invoke__">without_constraint</span>(&amp;x, &amp;y); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, result);  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">without_constraint</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y: &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> (&amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, &amp;<span class="symbol">&#x27;b</span> <span class="type">str</span>) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;y: &#123;&#125;&quot;</span>, y);  </span><br><span class="line">    (x, y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;long lived&quot;</span>);  </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">y</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;short&quot;</span>); </span><br><span class="line">        result = <span class="title function_ invoke__">without_constraint</span>(&amp;x, &amp;y); </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, result);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="结构体生命周期"><a href="#结构体生命周期" class="headerlink" title="结构体生命周期"></a>结构体生命周期</h4><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Book</span>&lt;<span class="symbol">&#x27;a</span>&gt; &#123;</span><br><span class="line">    title: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,  <span class="comment">// 这个引用必须至少和Book实例活得一样久</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">example</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">titleO</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Rust编程&quot;</span>);  <span class="comment">// title的生命周期: [-----------]</span></span><br><span class="line">    &#123;                                       <span class="comment">// </span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">book</span> = Book &#123;                   <span class="comment">// book的生命周期:    [-----]</span></span><br><span class="line">            title: &amp;titleO,                  <span class="comment">// title必须比book长</span></span><br><span class="line">        &#125;;                                   <span class="comment">// </span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, book.title);          <span class="comment">// </span></span><br><span class="line">    &#125; <span class="comment">// book在这里销毁，但title还在</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;标题还在: &#123;&#125;&quot;</span>, titleO); <span class="comment">// ✅ title 仍然有效</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 内存状态：</span></span><br><span class="line"><span class="comment">// title: [-----------]</span></span><br><span class="line"><span class="comment">// book:    [-----]</span></span><br><span class="line"><span class="comment">//          ↑ book借用title，title必须活得比book久</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误用法：book 可能比 title 活得久</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">incorrect</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">book</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">title</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;临时标题&quot;</span>);  <span class="comment">// 短寿的title</span></span><br><span class="line">        book = Book &#123; title: &amp;title &#125;;          <span class="comment">// book借用title</span></span><br><span class="line">    &#125; <span class="comment">// title 在这里死了</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, book.title);  <span class="comment">// ❌ book.title 悬垂引用</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译器会阻止编译</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="生命周期省略规则"><a href="#生命周期省略规则" class="headerlink" title="生命周期省略规则"></a>生命周期省略规则</h3><p>rust为了简化代码，有三条自动添加生命周期的规则：</p>
+<p>1，自动获得</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">foo</span>(x: &amp;<span class="type">str</span>) <span class="comment">// 编译器自动变成 fn foo&lt;&#x27;a&gt;(x: &amp;&#x27;a str)</span></span><br></pre></td></tr></table></figure>
+
+<p>2，如果只有一个输入生命周期，它会自动被赋给所有输出(两参数若相同生命周期，&lt;&gt;里只需要写一个)</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">get_first_or_default</span>(s: &amp;<span class="type">str</span>, default: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> s.<span class="title function_ invoke__">is_empty</span>() &#123; default &#125; <span class="keyword">else</span> &#123; &amp;s[<span class="number">0</span>..<span class="number">1</span>] &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">get_first_or_default</span>&lt;<span class="symbol">&#x27;a</span>&gt;(s: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, default: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> s.<span class="title function_ invoke__">is_empty</span>() &#123; default &#125; <span class="keyword">else</span> &#123; &amp;s[<span class="number">0</span>..<span class="number">1</span>] &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3，如果有多个输入，且包含 &amp;self 或 &amp;mut self，self的生命周期被赋给所有输出</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">MyStruct</span>;</span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">MyStruct</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">method</span>(&amp;<span class="keyword">self</span>, x: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">        <span class="comment">// 变成 fn method&lt;&#x27;a, &#x27;b&gt;(&amp;&#x27;a self, x: &amp;&#x27;b str) -&gt; &amp;&#x27;a str</span></span><br><span class="line">        <span class="keyword">self</span>.field</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2026/01/02/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84.trim()%E6%96%B9%E6%B3%95/">字符串的.trim()方法</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">周昊哲</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E3%80%81%E5%8F%AF%E5%8F%98%E6%80%A7%E4%B8%8E%E5%BC%95%E7%94%A8"><span class="toc-text">变量、可变性与引用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">变量与可变性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="toc-text">数据类型与函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E5%92%8C%E5%A0%86"><span class="toc-text">栈和堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E6%9D%83"><span class="toc-text">所有权</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%84%8F%E4%B9%89"><span class="toc-text">意义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%A7%84%E5%88%99"><span class="toc-text">核心规则</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%94%AF%E4%B8%80%E6%89%80%E6%9C%89%E8%80%85"><span class="toc-text">唯一所有者</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">作用域</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-text">引用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%BC%95%E7%94%A8"><span class="toc-text">解引用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E5%87%86%E5%88%99"><span class="toc-text">引用的准则</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%82%AC%E5%9E%82%E6%8C%87%E9%92%88"><span class="toc-text">悬垂指针</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E5%A4%A7%E7%B1%BB"><span class="toc-text">三种大类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%BC%8C%E5%85%B7%E5%90%8D%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">1，具名结构体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%EF%BC%8C%E5%85%83%E7%BB%84%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">2，元组结构体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%EF%BC%8C%E5%8D%95%E5%85%83%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">3，单元结构体</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95"><span class="toc-text">添加方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">关联函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA-impl-%E5%9D%97"><span class="toc-text">多个 impl 块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E4%B8%8E%E5%8C%B9%E9%85%8D%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">枚举与匹配控制流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE-Enum"><span class="toc-text">枚举(Enum)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E6%8E%A7%E5%88%B6%E6%B5%81-match"><span class="toc-text">匹配控制流(match)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#match%E8%A7%84%E5%88%99"><span class="toc-text">match规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%80%89%E5%80%BC%E6%9E%9A%E4%B8%BE%EF%BC%88option%EF%BC%89"><span class="toc-text">可选值枚举（option）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E6%9E%9A%E4%B8%BE%EF%BC%88Result%EF%BC%89"><span class="toc-text">结果枚举（Result）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">生命周期的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%B3%A8%E8%A7%A3%E8%AF%AD%E6%B3%95"><span class="toc-text">生命周期注解语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">函数中的生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#where%E7%BA%A6%E6%9D%9F"><span class="toc-text">*where约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">结构体生命周期</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9C%81%E7%95%A5%E8%A7%84%E5%88%99"><span class="toc-text">生命周期省略规则</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+
+
+<script type="text/javascript">
+  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+  };
+  const deps = {
+    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
+    marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
+    lazyload: `/%5Bobject%20Object%5D`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      const maxRetry = 3;
+      let retryCount = 0;
+
+      return new Promise((resolve, reject) => {
+        const load = () => {
+          utils.onLoading?.(el);
+
+          let timedOut = false;
+          const timeout = setTimeout(() => {
+            timedOut = true;
+            console.warn('[request] 超时:', url);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject('请求超时');
+            } else {
+              setTimeout(load, 1000);
+            }
+          }, 5000);
+
+          fetch(url).then(resp => {
+            if (timedOut) return;
+            clearTimeout(timeout);
+
+            if (!resp.ok) throw new Error('响应失败');
+            return resp;
+          }).then(data => {
+            if (timedOut) return;
+            utils.onLoadSuccess?.(el);
+            callback(data);
+            resolve(data);
+          }).catch(err => {
+            clearTimeout(timeout);
+            console.warn('[request] 错误:', err);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject(err);
+            } else {
+              setTimeout(load, 1000);
+            }
+          });
+        };
+
+        load();
+      });
+    },
+    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
+      return new Promise((resolve, reject) => {
+        let retryCount = 0;
+
+        const tryRequest = () => {
+          let timedOut = false;
+          const timer = setTimeout(() => {
+            timedOut = true;
+            if (++retryCount > maxRetry) reject('timeout');
+            else tryRequest();
+          }, timeout);
+
+          fetch(url, options)
+            .then(resp => {
+              clearTimeout(timer);
+              if (!resp.ok) throw new Error('bad response');
+              resolve(resp);
+            })
+            .catch(err => {
+              clearTimeout(timer);
+              if (++retryCount > maxRetry) reject(err);
+              else setTimeout(tryRequest, 500);
+            });
+        };
+
+        tryRequest();
+      });
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    callback_loaded: (el) => {
+      el.classList.add('loaded');
+      const wrapper = el.closest('.lazy-box');
+      const icon = wrapper?.querySelector('.lazy-icon');
+      if (icon) icon.remove();
+    }
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+
+  window.wrapLazyloadImages = (container) => {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+    if (!container) return;
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      if (img.classList.contains('lazy')) return;
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lazy-box';
+
+      const newImg = img.cloneNode();
+      newImg.removeAttribute('src');
+      newImg.setAttribute('data-src', src);
+      newImg.classList.add('lazy');
+
+      const icon = document.createElement('div');
+      icon.className = 'lazy-icon';
+      if (def.loading) {
+        icon.style.backgroundImage = `url("${def.loading}")`;
+      }
+
+      wrapper.appendChild(newImg);
+      wrapper.appendChild(icon);
+
+      img.replaceWith(wrapper);
+    });
+
+    // 通知 LazyLoad 更新
+    if (window.lazyLoadInstance?.update) {
+      window.lazyLoadInstance.update();
+    }
+  }
+  
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.33.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    // applyThemeToGiscus(theme)
+  }
+
+  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
+  const applyThemeToGiscus = (theme) => {
+    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const memos = document.getElementsByClassName('ds-memos');
+    if (memos != undefined && memos.length > 0) {
+      needFancybox = true;
+    }
+    const fancybox = document.getElementsByClassName('with-fancybox');
+    if (fancybox != undefined && fancybox.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
